@@ -65,7 +65,7 @@ def _parse_date(value):
 def _parse_result(li):
     # Simple fields
     title = li.select_one('div > div > div.ad-listing__details > div > h6 > a > span').string.strip()
-    print title
+    # print title
     title_date = li.select_one('div > div > div.ad-listing__details > div.ad-listing__extra-info > div.ad-listing__date').string.strip()
     created_at = _parse_date(title_date)
 
@@ -79,7 +79,7 @@ def _parse_result(li):
     except Exception as err:
         pass
     
-    print price
+    # print price
 
     url = li.select_one('div > div > div.ad-listing__details > div > h6 > a')['href']
     url = 'https://www.gumtree.com.au' + url
@@ -100,7 +100,7 @@ def _parse_result(li):
     soup = BeautifulSoup(response.text, 'html.parser')
     
     description = soup.select_one('#ad-description-details')
-    print description
+    # print description
 
     if created_at is None:
         date_str = soup.select_one('.ad-details__ad-attribute-value').string.strip()
