@@ -84,12 +84,9 @@ def _parse_result(li):
     url = li.select_one('div > div > div.ad-listing__details > div > h6 > a')['href']
     url = 'https://www.gumtree.com.au' + url
 
-    image_url = None
-    try:
-        image_url = li.select_one('div > div > div.ad-listing__thumb-container > a > span > img')['src']
-    except:
-        pass
-    # print url
+    image_url = li.select_one('div > div > div.ad-listing__thumb-container > a > span > img')['src']
+
+    print url
     # # Image - it may be there, it may not
     # if 'pictures' in li['class']:
     #     if 'data-src' in li.select_one('.thumb img').attrs:
