@@ -17,7 +17,7 @@ TIMEDELTA_MINS = ('minute','minutes')
 # Structures
 Result = namedtuple(
     'Result',
-    ['title', 'price', 'url', 'description', 'created_at']
+    ['title', 'price', 'url', 'image_url', 'description', 'created_at']
 )
 # Variables
 LAST_RUN_FILENAME = '.lastrun'
@@ -83,6 +83,9 @@ def _parse_result(li):
 
     url = li.select_one('div > div > div.ad-listing__details > div > h6 > a')['href']
     url = 'https://www.gumtree.com.au' + url
+
+    image_url = li.select_one('div > div > div.ad-listing__thumb-container > a > span > img')['src']
+
     print url
     # # Image - it may be there, it may not
     # if 'pictures' in li['class']:
@@ -108,7 +111,7 @@ def _parse_result(li):
         title=title,
         price=price,
         url=url,
-        # image_url=image_url,
+        image_url=image_url,
         description=str(description),
         created_at=created_at,
     )
@@ -141,8 +144,8 @@ def scrap(url):
     # of the loop
     valid = []
     for result in results:
-        if db.contains(_prepare_query(result)):
-            break
+        # if db.contains(_prepare_query(result)):
+        #     break
         db.insert(_to_dict(result))
         valid.append(result)
     db.close()
@@ -155,7 +158,7 @@ def _pretty_print(string):
 
 
 if __name__ == '__main__':
-    url = str(raw_input('Enter URL: ')) # "https://www.gumtree.com.au/s-nathan-brisbane/macbook+pro+2016/k0l3005898r100?fromSearchBox=true"
+    url = str(raw_input('Enter URL: '))
     while True:
         try:
             results = scrap(url)
