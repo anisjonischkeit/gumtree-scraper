@@ -61,6 +61,19 @@ def hide_all():
     return 'OK'
 
 
+@app.route('/show/all', methods=['POST'])
+def show_all():
+    db = TinyDB(DB_FILENAME)
+    eids = [
+        r.eid for r in db.search(
+            (Query().hidden == True)
+        )
+    ]
+    db.update({'hidden': False}, eids=eids)
+    db.close()
+    return 'OK'
+
+
 @app.route('/hide/<int:eid>', methods=['POST'])
 def hide(eid):
     db = TinyDB(DB_FILENAME)
