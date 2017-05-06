@@ -105,9 +105,9 @@ def _parse_result(li):
         # print created_at
 
     return Result(
-        title=str(title),
+        title=title,
         price=price,
-        url=str(url),
+        url=url,
         # image_url=image_url,
         description=str(description),
         created_at=created_at,
