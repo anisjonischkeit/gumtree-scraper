@@ -27,7 +27,7 @@ def api():
     for result in results:
         result['eid'] = result.eid
         result['url'] = url_for('goto', eid=result.eid)
-    results.sort(key=lambda r: r['created_at'])
+    results.sort(key=lambda r: r['created_at'], reverse=True)
     return json.dumps(results)
 
 
