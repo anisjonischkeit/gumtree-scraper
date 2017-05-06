@@ -61,7 +61,7 @@ def hide_all():
     return 'OK'
 
 
-@app.route('/show/all', methods=['POST'])
+@app.route('/show/all', methods=['GET', 'POST'])
 def show_all():
     db = TinyDB(DB_FILENAME)
     eids = [
