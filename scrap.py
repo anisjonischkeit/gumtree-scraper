@@ -144,8 +144,8 @@ def scrap(url):
     # of the loop
     valid = []
     for result in results:
-        # if db.contains(_prepare_query(result)):
-        #     break
+        if db.contains(_prepare_query(result)):
+            break
         db.insert(_to_dict(result))
         valid.append(result)
     db.close()
