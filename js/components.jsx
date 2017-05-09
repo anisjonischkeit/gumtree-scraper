@@ -55,7 +55,7 @@ export class Result extends React.Component {
             {this.props.seen ? <i className="glyphicon glyphicon-ok" title="Already seen" /> : ''}{' '}
             <a href={this.props.url} target="_blank" onClick={this.props.seenCallback}><b>{this.props.title}</b></a>
           </h3>
-          <p><small>{this.props.description}</small></p>
+          <p><small dangerouslySetInnerHTML={{__html: this.props.description}} /></p>
         </td>
         <td>{then.fromNow(true)}</td>
       </tr>
