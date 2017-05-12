@@ -49,13 +49,16 @@ export class Result extends React.Component {
             hideCallback={this.props.hideCallback}
             starCallback={this.props.starCallback} />
         </td>
-        <td className="price"><b>{this.props.price}</b></td>
+        <td className="price">
+	  <p>{this.props.area}</p>
+	  <b>{this.props.price}</b>
+	</td>
         <td className="description">
           <h3>
             {this.props.seen ? <i className="glyphicon glyphicon-ok" title="Already seen" /> : ''}{' '}
             <a href={this.props.url} target="_blank" onClick={this.props.seenCallback}><b>{this.props.title}</b></a>
           </h3>
-          <p><small>{this.props.description}</small></p>
+          <p><small dangerouslySetInnerHTML={{__html: this.props.description}} /></p>
         </td>
         <td>{then.fromNow(true)}</td>
       </tr>

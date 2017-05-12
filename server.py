@@ -4,14 +4,16 @@ from flask import (
     redirect,
     render_template,
     url_for,
+    request
 )
 from tinydb import TinyDB, Query
-
+import redis
 
 # Configurables
 DB_FILENAME = '.db'
 
 app = Flask(__name__)
+r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
 
 
 @app.route('/')
@@ -82,6 +84,16 @@ def hide(eid):
     db.close()
     return 'OK'
 
+@app.route('/add', methods=['POST'])
+def add():
+    url = request.form.get('url')
+    if url is not None:
+        urls = json.loads( r.get('urls') )
+        urls.append(url)
+        r.set('urls', json.dumps(urls))
+        return 'OK'
+    else:
+        return 'BAD REQUEST'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug = False)

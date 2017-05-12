@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 from tinydb import TinyDB, Query
 import dateutil
 import requests
+import redis
+import json
 
 
 # CONFIGURABLE THINGS
@@ -17,7 +19,7 @@ TIMEDELTA_MINS = ('minute','minutes')
 # Structures
 Result = namedtuple(
     'Result',
-    ['title', 'price', 'url', 'image_url', 'description', 'created_at']
+    ['title', 'price', 'url', 'image_url', 'description', 'created_at', 'area']
 )
 # Variables
 LAST_RUN_FILENAME = '.lastrun'
@@ -66,6 +68,8 @@ def _parse_result(li):
     # Simple fields
     title = li.select_one('div > div > div.ad-listing__details > div > h6 > a > span').string.strip()
     # print title
+    area = li.select_one('div > div > div.ad-listing__details > div.ad-listing__extra-info > div.ad-listing__location > span.ad-listing__location-area').contents[0]
+
     title_date = li.select_one('div > div > div.ad-listing__details > div.ad-listing__extra-info > div.ad-listing__date').string.strip()
     created_at = _parse_date(title_date)
 
@@ -117,6 +121,7 @@ def _parse_result(li):
         image_url=image_url,
         description=str(description),
         created_at=created_at,
+        area=area
     )
 
 
@@ -159,21 +164,28 @@ def _pretty_print(string):
     sys.stdout.write('\r' + string)
     sys.stdout.flush()
 
-
 if __name__ == '__main__':
-    url = str(raw_input('Enter URL: '))
+
+    r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+    
+    urls = json.loads( r.get('urls') )
+
+    # url = str(raw_input('Enter URL: '))
     while True:
-        try:
-            results = scrap(url)
-            if results:
-                for result in results:
-                    print(result)
-            else:
-                print('Nothing found.')
-            for i in range(REFRESH_SECONDS, 0, -1):
+        print "Scrapping ..."
+        for url in urls:
+            try:
+                results = scrap(url)
+                if results:
+                    for result in results:
+                        print(result)
+                else:
+                    print('Nothing found.')
+                print()
+            except KeyboardInterrupt:
+                print('Exiting.')
+                break
+            
+        for i in range(REFRESH_SECONDS, 0, -1):
                 _pretty_print('Sleeping. Next refresh in {} seconds'.format(i))
                 time.sleep(1)
-            print()
-        except KeyboardInterrupt:
-            print('Exiting.')
-            break
