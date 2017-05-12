@@ -170,10 +170,13 @@ if __name__ == '__main__':
     r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
 
     while True:
-        urls = json.loads( r.get('urls') )
-        
-        if urls is None:
-            urls = []
+        urlStr = r.get('urls')
+        urls = []
+        if urls is not None:
+            try:
+                urls = json.loads(urlStr)
+            except:          
+                pass
 
         for url in urls:
             try:
