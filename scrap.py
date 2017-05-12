@@ -71,6 +71,7 @@ def _parse_result(li):
     area = li.select_one('div > div > div.ad-listing__details > div.ad-listing__extra-info > div.ad-listing__location > span.ad-listing__location-area').contents[0]
 
     title_date = li.select_one('div > div > div.ad-listing__details > div.ad-listing__extra-info > div.ad-listing__date').string.strip()
+    area = li.select_one('div > div > div.ad-listing__details > div.ad-listing__extra-info > div.ad-listing__location > span.ad-listing__location-area').contents[0]
     created_at = _parse_date(title_date)
 
     price_span = li.select_one('div > div > div.ad-listing__details > div > div > div > span').contents
@@ -167,12 +168,13 @@ def _pretty_print(string):
 if __name__ == '__main__':
 
     r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
-    
-    urls = json.loads( r.get('urls') )
 
-    # url = str(raw_input('Enter URL: '))
     while True:
-        print "Scrapping ..."
+        urls = json.loads( r.get('urls') )
+        
+        if urls is None:
+            urls = []
+
         for url in urls:
             try:
                 results = scrap(url)

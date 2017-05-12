@@ -50,9 +50,9 @@ export class Result extends React.Component {
             starCallback={this.props.starCallback} />
         </td>
         <td className="price">
-	  <p>{this.props.area}</p>
-	  <b>{this.props.price}</b>
-	</td>
+          <p>{this.props.area}</p>
+          <b>{this.props.price}</b>
+        </td>
         <td className="description">
           <h3>
             {this.props.seen ? <i className="glyphicon glyphicon-ok" title="Already seen" /> : ''}{' '}
