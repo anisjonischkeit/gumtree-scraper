@@ -1,11 +1,6 @@
 # gumtree-scraper
 
-This tool was written during the last time (March 2016) I looked for an
-apartment to rent. The most popular website for that in Poland (and probably
-in other parts of Europe) was [Gumtree](http://gumtree.pl). Kind of annoyed
-with their interface (though it didn't matter to my girlfriend, who was
-searching with me), and also disappointed by fact that Gumtree removed built-in
-RSS feeds, I decided to write simple scraper.
+A simple scraper for gumtree Australia
 
 ![animation](docs/sample.gif)
 
@@ -34,9 +29,7 @@ RSS feeds, I decided to write simple scraper.
 - Flask
 - React
 - Redux
-- [TinyDB](http://tinydb.readthedocs.org/) (yup, it's not threadsafe, so you
-  may consider switching to other DB provider before going live - but for us
-  it was sufficient)
+- [TinyDB](http://tinydb.readthedocs.org/) (not threadsafe)
 
 ### Installation
 
@@ -85,13 +78,6 @@ see *all* opportunities, and most of the offers are added to their site either
 1) when I'm at work, or 2) late in the evening. So I could have had a late
 start when applying for an apartment - and believe me, the best offers are
 grabbed in matter of hours, if not *minutes*.
-
-Moreover, there were 2 people looking for a flat, and Gumtree doesn't offer any
-sharing features - we used Trello to manage our results, but we had to make
-extra effort to ensure we're not looking through an offer twice (thus wasting
-time).
-
-And on top of that - it was a fun side project to mess with React and Redux.
 
 ## License
 
